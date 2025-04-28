@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+db.sqlite3
+/media
+/staticfiles
+
+# Virtualenv
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Migrations (обычно лучше коммитить, но можно игнорировать в начале проекта)
+# */migrations/
+
+# dotenv
+.env
