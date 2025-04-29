@@ -13,5 +13,7 @@ class Task(models.Model):
     description = models.TextField(null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
     completed = models.BooleanField(default=False)
-    due_date = models.DateTimeField(validators=[date_validation])
+    due_date = models.DateTimeField(validators=[date_validation], null=True, blank=True)
 
+    def __str__(self):
+        return self.title
