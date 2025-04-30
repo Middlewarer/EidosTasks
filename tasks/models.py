@@ -13,6 +13,7 @@ class Task(models.Model):
     description = models.TextField(null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
     completed = models.BooleanField(default=False)
+    when_completed = models.DateField(null=True, blank=True, default=timezone.now())
     due_date = models.DateTimeField(validators=[date_validation], null=True, blank=True)
 
     def __str__(self):
