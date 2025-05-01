@@ -20,13 +20,29 @@
             background: white;
         }
     </style>
+</head>
 <body>
     <div class="task-card">
         <h1 class="mb-3 text-primary">Task Detail</h1>
         <p class="lead">This is the detail of the task:</p>
         <p class="fs-4 fw-bold text-dark">{{ task.title }}</p>
+
+        {% if subtasks %}
+        <hr>
+        <h4 class="mt-4">Subtasks</h4>
+        <ul class="list-group mt-2">
+            {% for subtask in subtasks %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ subtask.title }}
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted mt-4">No subtasks available for this task.</p>
+        {% endif %}
+
         <a href="/" class="btn btn-outline-primary mt-4">← Back to Tasks</a>
     </div>
 </body>
 </html>
-</head>
+

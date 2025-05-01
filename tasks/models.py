@@ -35,4 +35,9 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
+class SubTask(models.Model):
+    title = models.CharField(max_length=255)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+
+
 

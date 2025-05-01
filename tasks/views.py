@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, DetailView, TemplateView
 from django.contrib.auth.views import LoginView
-from .models import Task, Category
+from .models import Task, Category, SubTask
 from django.utils import timezone
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
@@ -63,6 +63,10 @@ class DetailTaskView(DetailView, LoginRequiredMixin):
     template_name = 'tasks/detail.html'
     model = Task
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subtasks'] = SubTask.objects.filter(task=self.object)
+        return context
 
 class SindexView(TemplateView):
     template_name = 'tasks/sindex.html'
