@@ -23,26 +23,41 @@
 </head>
 <body>
     <div class="task-card">
-        <h1 class="mb-3 text-primary">Task Detail</h1>
-        <p class="lead">This is the detail of the task:</p>
-        <p class="fs-4 fw-bold text-dark">{{ task.title }}</p>
+    <h1 class="mb-3 text-primary">Task Detail</h1>
+    <p class="lead">Редактируйте задачу ниже:</p>
 
-        {% if subtasks %}
-        <hr>
-        <h4 class="mt-4">Subtasks</h4>
-        <ul class="list-group mt-2">
-            {% for subtask in subtasks %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ subtask.title }}
-                </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p class="text-muted mt-4">No subtasks available for this task.</p>
-        {% endif %}
+    <form method="post" action="{% url 'update_task' task.id %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" name="title" class="form-control form-control-lg" value="{{ task.title }}" required>
+        </div>
+        <button type="submit" class="btn btn-success">Сохранить изменения</button>
+    </form>
 
-        <a href="/" class="btn btn-outline-primary mt-4">← Back to Tasks</a>
+    {% if subtasks %}
+    <hr>
+    <h4 class="mt-4">Subtasks</h4>
+    <ul class="list-group mt-2">
+        {% for subtask in subtasks %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ subtask.title }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-muted mt-4">No subtasks available for this task.</p>
+    {% endif %}
+
+    <div class="mt-4 d-flex justify-content-between">
+        <a href="/" class="btn btn-outline-primary">← Back to Tasks</a>
+
+        <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
     </div>
+</div>
+
 </body>
 </html>
 

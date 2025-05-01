@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView, DetailView, TemplateView
+from django.views.generic import ListView, CreateView, DetailView, TemplateView, UpdateView
 from django.contrib.auth.views import LoginView
 from .models import Task, Category, SubTask
 from django.utils import timezone
@@ -58,7 +58,6 @@ def add_task(request):
     return redirect('index')
 
 
-
 class DetailTaskView(DetailView, LoginRequiredMixin):
     template_name = 'tasks/detail.html'
     model = Task
@@ -67,6 +66,20 @@ class DetailTaskView(DetailView, LoginRequiredMixin):
         context = super().get_context_data(**kwargs)
         context['subtasks'] = SubTask.objects.filter(task=self.object)
         return context
+
+def delete_task(request, pk):
+    task = Task.objects.get(id=pk)
+    task.delete()
+    return redirect('index')
+
+def update_task(request, pk):
+    task = get_object_or_404(Task, pk=pk, user=request.user)
+    if request.method == 'POST':
+        new_title = request.POST.get('title', '').strip()
+        if new_title:
+            task.title = new_title
+            task.save()
+    return redirect('detail', pk=pk)
 
 class SindexView(TemplateView):
     template_name = 'tasks/sindex.html'
