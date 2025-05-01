@@ -9,5 +9,6 @@ urlpatterns = [
     path('detail/<int:pk>/', views.DetailTaskView.as_view(), name='detail'),
     path('login/', LoginView.as_view(template_name='tasks/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('sindex/', views.SindexView.as_view(), name='sindex')
+    path('sindex/', views.SindexView.as_view(), name='sindex'),
+    path('register/', views.fbv_registration, name='register'),
 ]

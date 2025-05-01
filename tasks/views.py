@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseNotAllowed
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm
 
 
 class IndexView(LoginRequiredMixin, ListView):
@@ -51,6 +53,19 @@ class DetailTaskView(DetailView, LoginRequiredMixin):
 
 class SindexView(TemplateView):
     template_name = 'tasks/sindex.html'
+
+
+def fbv_registration(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = CustomUserCreationForm()
+
+    return render(request, 'tasks/register.html', context={'form': form})
+
 
 
 
