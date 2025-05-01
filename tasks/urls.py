@@ -11,4 +11,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('sindex/', views.SindexView.as_view(), name='sindex'),
     path('register/', views.fbv_registration, name='register'),
+    path('add_category/', views.add_category, name='add_category'),
 ]

@@ -25,15 +25,35 @@
       </div>
     </header>
 
+
     <div class="container">
+
+      <!-- Add Category Form -->
+<form method="post" action="{% url 'add_category' %}">
+  {% csrf_token %}
+  <div class="add-task" style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
+    <input type="text" name="name" placeholder="Новая категория..." class="task-input">
+    <button type="submit" class="add-button">Добавить категорию</button>
+  </div>
+</form>
+
       <!-- Add Task Form -->
       <form method="post" action="{% url 'add_task' %}">
-        {%csrf_token%}
-      <div class="add-task">
-        <input type="text" placeholder="Новая задача..." name='title' class="task-input">
-        <button class="add-button">Cоздать задачу</button>
-      </div>
-      </form>
+  {% csrf_token %}
+  <div class="add-task" style="display: flex; gap: 10px; align-items: center;">
+    <input type="text" placeholder="Новая задача..." name="title" class="task-input">
+
+    <select name="category" class="category-select">
+      <option value="">Выберите категорию</option>
+      {% for cat in categories %}
+        <option value="{{ cat.id }}">{{ cat.title }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="submit" class="add-button">Создать задачу</button>
+  </div>
+</form>
+
 
 
       <!-- Active Tasks -->
@@ -62,6 +82,33 @@
         </div>
           {% endfor %}
       </section>
+
+       <section class="tasks-section">
+        <div class="section-header">
+          <h2>Ежедневные задачи</h2>
+          <span class="task-count">{{high_p_tasks.count}} задачи</span>
+        </div>
+
+          {% for s in high_p_tasks %}
+
+        <div class="task-list">
+          <div class="task-item">
+            <div class="task-content">
+              <button class="checkbox"></button>
+              <div class="task-details">
+                <a href="{% url 'detail' s.id %}" class="ivcan"><div class="task-title"><p >{{ s.title }}</p></div></a>
+              </div>
+            </div>
+              <form action="{% url 'complete_task' s.id %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button class="timer-button" type="submit">Завершить задачу</button>
+
+</form>
+          </div>
+        </div>
+          {% endfor %}
+      </section>
+
 
       <!-- Completed Tasks -->
       <section class="tasks-section completed">

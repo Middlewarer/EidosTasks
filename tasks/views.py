@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, DetailView, TemplateView
 from django.contrib.auth.views import LoginView
-from .models import Task
+from .models import Task, Category
 from django.utils import timezone
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
@@ -21,7 +21,17 @@ class IndexView(LoginRequiredMixin, ListView):
         context['uncompleted'] = Task.objects.filter(Q(completed=False) & Q(user=self.request.user))
         context['completed'] = Task.objects.filter(Q(completed=True) & Q(user=self.request.user) & Q(when_completed__day = today))
         context['counter'] = context['completed'].count() + context['uncompleted'].count()
+        context['categories'] = Category.objects.filter(Q(user=self.request.user) | Q(high_p=True))
+        context['high_p_tasks'] = Task.objects.filter(Q(user=self.request.user) & Q(category__high_p = True))
         return context
+
+
+def add_category(request):
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        if name:
+            Category.objects.create(title=name, user=request.user)
+    return redirect("index")
 
 
 def end_task(request, pk):
@@ -38,12 +48,15 @@ def end_task(request, pk):
 
 def add_task(request):
     if request.method == 'POST':
-        print('avoo')
         title = request.POST.get('title')
-        if title:
-            Task.objects.create(user=request.user, title=title, start_time=timezone.now())
+        start_time = timezone.now()
+        user = request.user
+        category_id = request.POST.get('category')
+        category = Category.objects.get(id=category_id) if category_id else None
 
+        Task.objects.create(user=user, title=title, category=category, start_time=start_time)
     return redirect('index')
+
 
 
 class DetailTaskView(DetailView, LoginRequiredMixin):

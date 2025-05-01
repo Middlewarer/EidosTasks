@@ -8,7 +8,12 @@ def date_validation(value):
         raise ValidationError('Нельзя назначить дату дедлайна в прошлое')
 
 class Category(models.Model):
-    title = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    high_p = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-high_p', 'title']
 
 
 class Task(models.Model):
