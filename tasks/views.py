@@ -9,7 +9,7 @@ from django.http import HttpResponseNotAllowed
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class IndexView(ListView):
+class IndexView(LoginRequiredMixin, ListView):
     template_name = 'tasks/index.html'
     model = Task
 
@@ -27,6 +27,7 @@ def end_task(request, pk):
         task = get_object_or_404(Task, pk=pk)
         task.completed = True
         task.when_completed = timezone.now()
+        task.end_time = timezone.now()
         task.save()
         return redirect('index')
     else:
@@ -38,7 +39,7 @@ def add_task(request):
         print('avoo')
         title = request.POST.get('title')
         if title:
-            Task.objects.create(user=request.user, title=title)
+            Task.objects.create(user=request.user, title=title, start_time=timezone.now())
 
     return redirect('index')
 

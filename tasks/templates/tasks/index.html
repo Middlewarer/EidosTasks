@@ -56,6 +56,7 @@
               <form action="{% url 'complete_task' i.id %}" method="post" style="display:inline;">
     {% csrf_token %}
     <button class="timer-button" type="submit">Завершить задачу</button>
+
 </form>
           </div>
         </div>
@@ -66,7 +67,7 @@
       <section class="tasks-section completed">
         <div class="section-header">
           <h2>Выполненные задачи за сегодня</h2>
-          <span class="task-count">{{uncompleted.count}} задачи</span>
+          <span class="task-count">{{completed.count}} задачи</span>
         </div>
 {% for i in completed %}
         <div class="task-list">
@@ -74,7 +75,7 @@
             <div class="task-content">
               <button class="checkbox checked"></button>
               <div class="task-details">
-                <div class="task-title">{{i.title}}</div>
+                <div class="task-title">{{i.title}} ||| время, затраченное на задачу: {{i.duration}}</div>
               </div>
             </div>
           </div>
