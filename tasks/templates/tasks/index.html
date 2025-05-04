@@ -59,7 +59,12 @@
       <!-- Active Tasks -->
       <section class="tasks-section">
         <div class="section-header">
-          <h2>Активные задачи</h2>
+          <h2>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="#9b87f5" style="vertical-align: middle; margin-right: 5px;">
+    <path d="M12 2L2 22h20L12 2z"/>
+  </svg>
+  Активные задачи
+</h2>
           <span class="task-count">{{uncompleted.count}} задачи</span>
         </div>
 
@@ -154,7 +159,7 @@
     <footer class="main-footer">
       <div class="footer-content">
         <div class="footer-section">
-          <h3>Eidos Task</h3>
+          <h3 class="typing-container">Eidos Task</h3>
           <p>Ваш надежный помощник в управлении задачами</p>
         </div>
         <div class="footer-section">
@@ -190,6 +195,33 @@ body {
   background-color: #f8f9fa;
   color: #1a1f2c;
 }
+
+.typing-container {
+      width: 22ch;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 0.15em solid orange;
+      font-size: 2rem;
+      animation: typing 2s steps(11), blink 0.75s step-end infinite alternate;
+    }
+
+   @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 11ch;
+      }
+    }
+
+    @keyframes blink {
+      from {
+        border-color: transparent;
+      }
+      to {
+        border-color: orange;
+      }
+    }
 
 .container {
   max-width: 800px;
@@ -542,6 +574,46 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+      @keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tasks-section {
+  animation: fadeSlideIn 0.6s ease forwards;
+}
+
+      @keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.logo h1 {
+  animation: pulse 2s infinite;
+}
+
+      .task-item:hover {
+  transform: scale(1.02); /* эффект увеличения */
+}
+
+
+      .add-button:hover {
+  transform: scale(1.05) rotate(-1deg);
+  transition: transform 0.3s ease;
+}
+
+
     </style>
   </body>
 </html>
