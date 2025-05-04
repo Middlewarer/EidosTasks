@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Task Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% block styles %}{%endblock%}
+
+</head>
+<body>
+<!-- Header -->
+    <header class="main-header">
+      <div class="header-content">
+        <div class="logo">
+          <h1>EidosTasks</h1>
+        </div>
+        <nav class="main-nav">
+          <a href="{% url 'index' %}" class="nav-link">Главная</a>
+          <a href="#" class="nav-link">Задачи</a>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+          {% else %}
+          <a href="{% url 'login' %}" class="nav-link">Login</a>
+          {% endif %}
+        </nav>
+      </div>
+    </header>
+
+{% block content %}
+{% endblock %}
+
+<!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3 class="typing-container">Eidos Task</h3>
+          <p>Ваш надежный помощник в управлении задачами</p>
+        </div>
+        <div class="footer-section">
+          <h4>Контакты</h4>
+          <p>Email: support@eidostask.com</p>
+          <p>Телефон: +7 (XXX) XXX-XX-XX</p>
+        </div>
+        <div class="footer-section">
+          <h4>Социальные сети</h4>
+          <div class="social-links">
+            <a href="#" class="social-link">Telegram</a>
+            <a href="#" class="social-link">VK</a>
+            <a href="#" class="social-link">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Eidos Task. Все права защищены.</p>
+      </div>
+    </footer>
+</body>
+</html>

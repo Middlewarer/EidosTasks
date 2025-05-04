@@ -1,52 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
- <div class="container">
-      <!-- Login Form -->
-      <div class="login-container">
-        <div class="login-header">
-          <h2>Вход в систему</h2>
-          <p>Введите данные для входа в ваш аккаунт</p>
-        </div>
-
-        <form class="login-form" method="post" action="">
-            {% csrf_token %}
-          <div class="form-group">
-            <label for="username">Имя пользователя</label>
-            <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required>
-          </div>
-
-          <div class="form-group">
-            <label for="password">Пароль</label>
-            <input type="password" id="password" name="password" placeholder="Введите пароль" required>
-          </div>
-
-          <div class="form-options">
-            <div class="remember-me">
-              <input type="checkbox" id="remember" name="remember">
-              <label for="remember">Запомнить меня</label>
-            </div>
-            <a href="#" class="forgot-password">Забыли пароль?</a>
-          </div>
-
-          <button type="submit" class="login-button">Войти</button>
-        </form>
-
-        <div class="login-footer">
-          <p>Нет аккаунта? <a href="#" class="register-link">Зарегистрируйтесь</a></p>
-        </div>
-      </div>
-    </div>
-
-<style>
-      /* Base styles */
+/* Base styles */
 * {
   margin: 0;
   padding: 0;
@@ -59,6 +11,33 @@ body {
   background-color: #f8f9fa;
   color: #1a1f2c;
 }
+
+.typing-container {
+      width: 22ch;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 0.15em solid orange;
+      font-size: 2rem;
+      animation: typing 2s steps(11), blink 0.75s step-end infinite alternate;
+    }
+
+   @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 11ch;
+      }
+    }
+
+    @keyframes blink {
+      from {
+        border-color: transparent;
+      }
+      to {
+        border-color: orange;
+      }
+    }
 
 .container {
   max-width: 800px;
@@ -411,31 +390,41 @@ body {
     grid-template-columns: 1fr;
   }
 }
-    </style>
-<footer class="main-footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Eidos Task</h3>
-          <p>Ваш надежный помощник в управлении задачами</p>
-        </div>
-        <div class="footer-section">
-          <h4>Контакты</h4>
-          <p>Email: support@eidostask.com</p>
-          <p>Телефон: +7 (XXX) XXX-XX-XX</p>
-        </div>
-        <div class="footer-section">
-          <h4>Социальные сети</h4>
-          <div class="social-links">
-            <a href="#" class="social-link">Telegram</a>
-            <a href="#" class="social-link">VK</a>
-            <a href="#" class="social-link">GitHub</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2024 Eidos Task. Все права защищены.</p>
-      </div>
-    </footer>
 
-</body>
-</html>
+      @keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tasks-section {
+  animation: fadeSlideIn 0.6s ease forwards;
+}
+
+      @keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.logo h1 {
+  animation: pulse 2s infinite;
+}
+
+      .task-item:hover {
+  transform: scale(1.02); /* эффект увеличения */
+}
+
+
+      .add-button:hover {
+  transform: scale(1.05) rotate(-1deg);
+  transition: transform 0.3s ease;
+}
