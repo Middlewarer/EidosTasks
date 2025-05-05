@@ -1,13 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, DetailView, TemplateView, UpdateView
-from django.contrib.auth.views import LoginView
 from .models import Task, Category, SubTask
 from django.utils import timezone
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseNotAllowed
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm
 
 
@@ -16,13 +15,13 @@ class IndexView(LoginRequiredMixin, ListView):
     model = Task
 
     def get_context_data(self, *args, **kwargs):
-        today = timezone.now().date().day
+        today = timezone.now().date()
         context = super().get_context_data(*args, **kwargs)
         context['uncompleted'] = Task.objects.filter(Q(completed=False) & Q(user=self.request.user))
-        context['completed'] = Task.objects.filter(Q(completed=True) & Q(user=self.request.user) & Q(when_completed__day = today))
+        context['completed'] = Task.objects.filter(Q(completed=True) & Q(user=self.request.user) & Q(when_completed = today))
         context['counter'] = context['completed'].count() + context['uncompleted'].count()
         context['categories'] = Category.objects.filter(Q(user=self.request.user) | Q(high_p=True))
-        context['high_p_tasks'] = Task.objects.filter(Q(user=self.request.user) & Q(category__high_p = True))
+        context['high_p_tasks'] = Task.objects.filter(Q(user=self.request.user) & Q(category__high_p = True) & Q(completed = False))
         return context
 
 
@@ -95,6 +94,12 @@ def fbv_registration(request):
         form = CustomUserCreationForm()
 
     return render(request, 'tasks/register.html', context={'form': form})
+
+@login_required
+def tasks_view(request):
+    return render(request, 'tasks/tasks.html', context={'daily_tasks': Task.objects.filter(category__id=1),
+                                                        'weekly_tasks': Task.objects.filter(category__id=2),
+                                                        'urgent_tasks': Task.objects.filter(category__id=3)})
 
 
 

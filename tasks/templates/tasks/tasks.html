@@ -1,0 +1,44 @@
+{% extends 'tasks/base.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'tasks/css/tasks.css' %}">
+    <link rel="stylesheet" href="{% static 'tasks/css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Мои задачи</h1>
+        <div class="columns">
+            <div class="column">
+                <h2>🗓 Ежедневные</h2>
+                {% for task in daily_tasks %}
+                    <div class="task {% if task.completed %}completed{% endif %}">
+                        <p>{{ task.title }}</p>
+                    </div>
+                {% empty %}
+                    <p class="empty">Нет задач</p>
+                {% endfor %}
+            </div>
+            <div class="column">
+                <h2>📅 Цели недели</h2>
+                {% for task in weekly_goals %}
+                    <div class="task {% if task.completed %}completed{% endif %}">
+                        <p>{{ task.title }}</p>
+                    </div>
+                {% empty %}
+                    <p class="empty">Нет задач</p>
+                {% endfor %}
+            </div>
+            <div class="column">
+                <h2>🔥 Важно и срочно</h2>
+                {% for task in urgent_tasks %}
+                    <div class="task {% if task.completed %}completed{% endif %}">
+                        <p>{{ task.title }}</p>
+                    </div>
+                {% empty %}
+                    <p class="empty">Нет задач</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
