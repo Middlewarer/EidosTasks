@@ -14,5 +14,6 @@ urlpatterns = [
     path('sindex/', views.SindexView.as_view(), name='sindex'),
     path('register/', views.fbv_registration, name='register'),
     path('add_category/', views.add_category, name='add_category'),
-    path('tasks/', views.tasks_view, name='tasks')
+    path('tasks/', views.tasks_view, name='tasks'),
+    path('asdd/', views.delete_all_tasks, name='delete_all_tasks')
 ]

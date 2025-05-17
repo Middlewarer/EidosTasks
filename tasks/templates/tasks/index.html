@@ -34,36 +34,42 @@
 
 
       <!-- Active Tasks -->
-      <section class="tasks-section">
-        <div class="section-header">
-          <h2>
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="#9b87f5" style="vertical-align: middle; margin-right: 5px;">
-    <path d="M12 2L2 22h20L12 2z"/>
-  </svg>
-  Активные задачи
-</h2>
-          <span class="task-count">{{uncompleted.count}} задачи</span>
-        </div>
+<section class="tasks-section">
+  <div class="section-header" style="display: flex; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center;">
+      <h2 style="margin: 0;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#9b87f5" style="vertical-align: middle; margin-right: 5px;">
+          <path d="M12 2L2 22h20L12 2z"/>
+        </svg>
+        Активные задачи
+      </h2>
+      <span class="task-count" style="margin-left: 10px;">{{uncompleted.count}} задачи</span>
+    </div>
 
-          {% for i in uncompleted %}
+    <form method="post" action="{% url 'delete_all_tasks' %}">
+      {% csrf_token %}
+      <button type="submit" class="delete-all-button">Удалить все задания</button>
+    </form>
+  </div>
 
-        <div class="task-list">
-          <div class="task-item">
-            <div class="task-content">
-              <button class="checkbox"></button>
-              <div class="task-details">
-                <a href="{% url 'detail' i.id %}" class="ivcan"><div class="task-title"><p >{{ i.title }}</p></div></a>
-              </div>
-            </div>
-              <form action="{% url 'complete_task' i.id %}" method="post" style="display:inline;">
-    {% csrf_token %}
-    <button class="timer-button" type="submit">Завершить задачу</button>
-
-</form>
+  {% for i in uncompleted %}
+    <div class="task-list">
+      <div class="task-item">
+        <div class="task-content">
+          <button class="checkbox"></button>
+          <div class="task-details">
+            <a href="{% url 'detail' i.id %}" class="ivcan"><div class="task-title"><p >{{ i.title }}</p></div></a>
           </div>
         </div>
-          {% endfor %}
-      </section>
+        <form action="{% url 'complete_task' i.id %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button class="timer-button" type="submit">Завершить задачу</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
 
        <section class="tasks-section">
         <div class="section-header">

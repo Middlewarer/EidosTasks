@@ -40,4 +40,10 @@ class SubTask(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
 
+class Example(models.Model):
+    title = models.CharField(max_length=255)
+
+
+
+
 

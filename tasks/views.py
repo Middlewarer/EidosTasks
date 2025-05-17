@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
+from django.forms import model_to_dict
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, DetailView, TemplateView, UpdateView
-from .models import Task, Category, SubTask
+from .models import Task, Category, SubTask, Example
 from django.utils import timezone
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
@@ -9,6 +10,11 @@ from django.http import HttpResponseNotAllowed
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CustomUserCreationForm
 
+
+from rest_framework import generics
+from rest_framework.views import APIView
+from .serializers import TaskSerializer
+from rest_framework.response import Response
 
 class IndexView(LoginRequiredMixin, ListView):
     template_name = 'tasks/index.html'
@@ -78,7 +84,7 @@ def update_task(request, pk):
         if new_title:
             task.title = new_title
             task.save()
-    return redirect('detail', pk=pk)
+    return redirect(to='detail', pk=pk)
 
 class SindexView(TemplateView):
     template_name = 'tasks/sindex.html'
@@ -100,6 +106,30 @@ def tasks_view(request):
     return render(request, 'tasks/tasks.html', context={'daily_tasks': Task.objects.filter(category__id=1),
                                                         'weekly_tasks': Task.objects.filter(category__id=2),
                                                         'urgent_tasks': Task.objects.filter(category__id=3)})
+
+def delete_all_tasks(request):
+    if request.method == 'POST':
+        Task.objects.all().delete()
+    return redirect('index')  # замените на имя вашей домашней страницы
+
+
+
+#-----> Django REST
+
+class TaskAPIView(generics.ListAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def post(self, request):
+        return Response({'title': 'vi otpravili'})
+
+class TaskAAPIView(APIView):
+    def post(self, request):
+        new_post = Example.objects.create(
+            title = request.data['title']
+        )
+        return Response(model_to_dict(new_post))
+
 
 
 
